@@ -14,11 +14,18 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
 
     const [studentId, setStudentId]= useState('');
 
-    const handleCourseChange = (dropdown, updatedData) => {
+    const handleCourseChange = (dropdown, updatedData,choice1Val) => {
+
+        if(choice1Val !== "" && Object.values(selectedCoursesData).some(courseList =>
+            courseList.some(course => course.course_code_name === choice1Val)
+        ))
+            return false;
+
         setSelectedCoursesData(prevState => ({
             ...prevState,
             [dropdown]: updatedData,
         }));
+        return true;
     };
     const submitForm = (e) => {
         e.preventDefault();
@@ -75,7 +82,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 coursesTablePath={'src/cs_courses_required.csv'}
                                 query={queryA}
                                 coursesPrefArr={selectedCoursesData.reqCoursesAlist}
-                                onCourseChange={(updatedData) => handleCourseChange("reqCoursesAlist", updatedData)}
+                                onCourseChange={(updatedData, choice1="") => handleCourseChange("reqCoursesAlist", updatedData, choice1)}
                             />
                             <div>
                                 <label
@@ -89,7 +96,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 coursesTablePath={'src/cs_courses_choice.csv'}
                                 query={queryA}
                                 coursesPrefArr={selectedCoursesData.choiceCoursesAlist}
-                                onCourseChange={(updatedData) => handleCourseChange("choiceCoursesAlist", updatedData)}
+                                onCourseChange={(updatedData, choice1="") => handleCourseChange("choiceCoursesAlist", updatedData, choice1)}
                             />
                         </div>
                         <div>
@@ -106,7 +113,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 coursesTablePath={'src/cs_courses_required.csv'}
                                 query={queryB}
                                 coursesPrefArr={selectedCoursesData.reqCoursesBlist}
-                                onCourseChange={(updatedData) => handleCourseChange("reqCoursesBlist", updatedData)}
+                                onCourseChange={(updatedData, choice1="") => handleCourseChange("reqCoursesBlist", updatedData, choice1)}
                             />
                             <div>
                                 <label
@@ -120,7 +127,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 coursesTablePath={'src/cs_courses_choice.csv'}
                                 query={queryB}
                                 coursesPrefArr={selectedCoursesData.choiceCoursesBlist}
-                                onCourseChange={(updatedData) => handleCourseChange("choiceCoursesBlist", updatedData)}
+                                onCourseChange={(updatedData, choice1="") => handleCourseChange("choiceCoursesBlist", updatedData, choice1)}
                             />
                         </div>
 

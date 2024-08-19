@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Papa from "papaparse";
+import _ from 'lodash';
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import coursesWithExe from '../coursesWithExe.json';
 // eslint-disable-next-line react/prop-types
@@ -15,16 +16,23 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
         exercise_group_code_opt:[]
     }])
 
+    const [validationError, setValidationError] = useState(false);
     const handleChangeSelect1= (event, index) => {
-        const temp=[...coursesPrefArr]
+
+        setValidationError(false);
+
+        const temp = _.cloneDeep(coursesPrefArr);
+        //const temp=[...coursesPrefArr]
         const newVal=event.target.value;
         temp[index]["course_code_name"]=newVal;
 
         const hasExe = coursesWithExe["courses-codes"].some(courseCode => (event.target.value).includes(courseCode));
-        //console.log(hasExe);
         temp[index]["has_exercise"]=hasExe;
 
-        onCourseChange(temp);
+        const courseChangeValid = onCourseChange(temp, newVal);
+        if (!courseChangeValid)
+            setValidationError(true);
+
         const queryAfterSelect1= (course) => course.course_id_name === event.target.value;
         const queriedDataAfterSelect1 = filteredCourses.filter(queryAfterSelect1);
 
@@ -119,9 +127,12 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
             {/* eslint-disable-next-line react/prop-types */}
             {coursesPrefArr.map((singlePref,index) => {
                 return(
-                    <div key= {index} className= 'mb-4'>
+                    <div key= {index} className= 'mb-4 border-dotted border-b-2 border-indigo-600'>
                         <div className= 'mb-2'>
-                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required onChange={(e) => handleChangeSelect1(e,index)} >
+                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required
+                                    onChange={(e) => handleChangeSelect1(e,index)}
+                                    title={validationError ? 'Please select a valid course.' : ''}
+                            >
                                 <option value="" disabled hidden>
                                     Choose Course
                                 </option>
@@ -139,6 +150,9 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                                 >
                                     <IoIosRemoveCircleOutline className='inline text-xl text-white m-1'/>
                                 </button>
+                            )}
+                            {validationError && (
+                                <label className="text-red-500 text-xs ml-2">Please select a valid course.</label>
                             )}
                         </div>
                         <div className= 'mb-2'>
