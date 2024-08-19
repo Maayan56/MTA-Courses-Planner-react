@@ -121,7 +121,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                 return(
                     <div key= {index} className= 'mb-4'>
                         <div className= 'mb-2'>
-                            <select className='border rounded w-1/3 py-2 px-3' value={singlePref.course_code_name} required onChange={(e) => handleChangeSelect1(e,index)} >
+                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required onChange={(e) => handleChangeSelect1(e,index)} >
                                 <option value="" disabled hidden>
                                     Choose Course
                                 </option>
@@ -142,7 +142,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                             )}
                         </div>
                         <div className= 'mb-2'>
-                            <select className='border rounded w-1/3 py-2 px-3' value={singlePref.lesson_code} required onChange={(e) => handleChangeSelect2(e,index)}>
+                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.lesson_code} required onChange={(e) => handleChangeSelect2(e,index)}>
                                 <option value="" disabled hidden>
                                     Choose Lesson Group
                                 </option>
@@ -158,7 +158,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                         </div>
                         {/* eslint-disable-next-line react/prop-types */}
                         {coursesPrefArr[index].has_exercise && (<div className= 'mb-2'>
-                            <select className='border rounded w-1/3 py-2 px-3' value={singlePref.exercise_code} required onChange={(e) => handleChangeSelect3(e,index)}>
+                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.exercise_code} required onChange={(e) => handleChangeSelect3(e,index)}>
                                 <option value="" disabled hidden>
                                     Choose Exercise Group
                                 </option>

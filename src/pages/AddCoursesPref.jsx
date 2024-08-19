@@ -12,6 +12,8 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
         choiceCoursesBlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" }]
     });
 
+    const [studentId, setStudentId]= useState('');
+
     const handleCourseChange = (dropdown, updatedData) => {
         setSelectedCoursesData(prevState => ({
             ...prevState,
@@ -20,13 +22,12 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
     };
     const submitForm = (e) => {
         e.preventDefault();
-        const newJob = {
-            selectedCoursesData
+        const newStudentPref = {
+            selectedCoursesData,
+            studentId
         };
-
         //console.log("the new job:", newJob);
-        addPrefSubmit(newJob);
-
+        addPrefSubmit(newStudentPref);
     };
 
     const queryA = (course) => course.semester === 'א' && course.lesson_or_exercise === 'שיעור';
@@ -39,77 +40,88 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                 <div className='bg-white px-6 py-8 mb-4 shadow-md rounded-md border m-4 md:m-0'>
                     <form onSubmit={submitForm}>
                         <h2 className='text-3xl text-center font-semibold mb-6'>Add Your Schedules Preferences</h2>
+                        <div className='mb-4'>
+                            <label htmlFor='studentID' className='block text-gray-700 font-bold mb-2'>
+                                הכנס תעודת זהות
+                            </label>
+                            <input
+                                id='studentID'
+                                name='studentID'
+                                className='border rounded w-full py-2 px-3 mb-2'
+                                required
+                                value={studentId}
+                                onChange={(e) => {
+                                    const value = e.target.value;
+                                    // Check if the input is a number and has at most 9 digits
+                                    if (/^\d{0,9}$/.test(value)) {
+                                        setStudentId(value);
+                                    }
+                                }}
+                                pattern="\d{9}" // Enforces 9 digits on form submission
+                                title="הזן תעודת זהות תקינה"
+                            />
+                        </div>
                         <div>
+                            <h3 className='text-2xl text-left font-medium mb-4'>סמסטר א</h3>
                             <div>
-                                <h3 className='text-2xl text-left font-medium mb-4'>סמסטר א</h3>
-                                <div>
-                                    <label
-                                        htmlFor='reqCourseName'
-                                        className='block text-gray-700 font-bold mb-2'
-                                    >
-                                        קורסי חובה רצויים
-                                    </label>
-                                </div>
-                                <div className='mb-4'>
-                                    <CoursesDropdownList
-                                        coursesTablePath={'src/cs_courses_required.csv'}
-                                        query={queryA}
-                                        coursesPrefArr={selectedCoursesData.reqCoursesAlist}
-                                        onCourseChange={(updatedData) => handleCourseChange("reqCoursesAlist", updatedData)}
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor='reqCourseName'
-                                        className='block text-gray-700 font-bold mb-2'
-                                    >
-                                        קורסי בחירה רצויים
-                                    </label>
-                                </div>
-                                <div className='mb-4'>
-                                    <CoursesDropdownList
-                                        coursesTablePath={'src/cs_courses_choice.csv'}
-                                        query={queryA}
-                                        coursesPrefArr={selectedCoursesData.choiceCoursesAlist}
-                                        onCourseChange={(updatedData) => handleCourseChange("choiceCoursesAlist", updatedData)}
-                                    />
-                                </div>
+                                <label
+                                    htmlFor='reqCourseName'
+                                    className='block text-gray-700 font-bold mb-2'
+                                >
+                                    קורסי חובה רצויים
+                                </label>
                             </div>
+                            <CoursesDropdownList
+                                coursesTablePath={'src/cs_courses_required.csv'}
+                                query={queryA}
+                                coursesPrefArr={selectedCoursesData.reqCoursesAlist}
+                                onCourseChange={(updatedData) => handleCourseChange("reqCoursesAlist", updatedData)}
+                            />
                             <div>
-                                <h3 className='text-2xl text-left font-medium mb-4'>סמסטר ב</h3>
-                                <div>
-                                    <label
-                                        htmlFor='reqCourseName'
-                                        className='block text-gray-700 font-bold mb-2'
-                                    >
-                                        קורסי חובה רצויים
-                                    </label>
-                                </div>
-                                <div className='mb-4'>
-                                    <CoursesDropdownList
-                                        coursesTablePath={'src/cs_courses_required.csv'}
-                                        query={queryB}
-                                        coursesPrefArr={selectedCoursesData.reqCoursesBlist}
-                                        onCourseChange={(updatedData) => handleCourseChange("reqCoursesBlist", updatedData)}
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor='reqCourseName'
-                                        className='block text-gray-700 font-bold mb-2'
-                                    >
-                                        קורסי בחירה רצויים
-                                    </label>
-                                </div>
-                                <div className='mb-4'>
-                                    <CoursesDropdownList
-                                        coursesTablePath={'src/cs_courses_choice.csv'}
-                                        query={queryB}
-                                        coursesPrefArr={selectedCoursesData.choiceCoursesBlist}
-                                        onCourseChange={(updatedData) => handleCourseChange("choiceCoursesBlist", updatedData)}
-                                    />
-                                </div>
+                                <label
+                                    htmlFor='reqCourseName'
+                                    className='block text-gray-700 font-bold mb-2'
+                                >
+                                    קורסי בחירה רצויים
+                                </label>
                             </div>
+                            <CoursesDropdownList
+                                coursesTablePath={'src/cs_courses_choice.csv'}
+                                query={queryA}
+                                coursesPrefArr={selectedCoursesData.choiceCoursesAlist}
+                                onCourseChange={(updatedData) => handleCourseChange("choiceCoursesAlist", updatedData)}
+                            />
+                        </div>
+                        <div>
+                            <h3 className='text-2xl text-left font-medium mb-4'>סמסטר ב</h3>
+                            <div>
+                                <label
+                                    htmlFor='reqCourseName'
+                                    className='block text-gray-700 font-bold mb-2'
+                                >
+                                    קורסי חובה רצויים
+                                </label>
+                            </div>
+                            <CoursesDropdownList
+                                coursesTablePath={'src/cs_courses_required.csv'}
+                                query={queryB}
+                                coursesPrefArr={selectedCoursesData.reqCoursesBlist}
+                                onCourseChange={(updatedData) => handleCourseChange("reqCoursesBlist", updatedData)}
+                            />
+                            <div>
+                                <label
+                                    htmlFor='reqCourseName'
+                                    className='block text-gray-700 font-bold mb-2'
+                                >
+                                    קורסי בחירה רצויים
+                                </label>
+                            </div>
+                            <CoursesDropdownList
+                                coursesTablePath={'src/cs_courses_choice.csv'}
+                                query={queryB}
+                                coursesPrefArr={selectedCoursesData.choiceCoursesBlist}
+                                onCourseChange={(updatedData) => handleCourseChange("choiceCoursesBlist", updatedData)}
+                            />
                         </div>
 
                         <div>
