@@ -17,10 +17,10 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
     }])
 
     const [validationError, setValidationError] = useState(false);
+
     const handleChangeSelect1= (event, index) => {
 
         setValidationError(false);
-
         const temp = _.cloneDeep(coursesPrefArr);
         //const temp=[...coursesPrefArr]
         const newVal=event.target.value;
@@ -131,7 +131,6 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                         <div className= 'mb-2'>
                             <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required
                                     onChange={(e) => handleChangeSelect1(e,index)}
-                                    title={validationError ? 'Please select a valid course.' : ''}
                             >
                                 <option value="" disabled hidden>
                                     Choose Course
@@ -150,9 +149,6 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                                 >
                                     <IoIosRemoveCircleOutline className='inline text-xl text-white m-1'/>
                                 </button>
-                            )}
-                            {validationError && (
-                                <label className="text-red-500 text-xs ml-2">Please select a valid course.</label>
                             )}
                         </div>
                         <div className= 'mb-2'>
