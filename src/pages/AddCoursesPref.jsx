@@ -6,10 +6,10 @@ import CoursesDropdownList from "../components/CoursesDropdownList.jsx";
 const AddCoursesPref = ({ addPrefSubmit }) => {
 
     const [selectedCoursesData, setSelectedCoursesData] = useState({
-        reqCoursesAlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" }],
-        reqCoursesBlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" }],
-        choiceCoursesAlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" }],
-        choiceCoursesBlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" }]
+        reqCoursesAlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }],
+        reqCoursesBlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }],
+        choiceCoursesAlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }],
+        choiceCoursesBlist: [{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }]
     });
 
     const [studentId, setStudentId]= useState('');
@@ -69,11 +69,15 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                             />
                         </div>
                         <div>
-                            <h3 className='text-2xl text-left font-medium mb-4'>סמסטר א</h3>
+                            <h3 className="text-2xl text-center font-semibold mb-3 text-gray-800 dark:text-gray-200 tracking-wide leading-tight">
+                                סמסטר א
+                            </h3>
+                            <hr
+                                className="my-3 h-2 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-indigo-600 to-transparent opacity-50 dark:via-neutral-400"/>
                             <div>
                                 <label
                                     htmlFor='reqCourseName'
-                                    className='block text-gray-700 font-bold mb-2'
+                                    className='block text-gray-700 text-center font-bold mb-2'
                                 >
                                     קורסי חובה רצויים
                                 </label>
@@ -87,7 +91,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                             <div>
                                 <label
                                     htmlFor='reqCourseName'
-                                    className='block text-gray-700 font-bold mb-2'
+                                    className='block text-gray-700 text-center font-bold mb-2'
                                 >
                                     קורסי בחירה רצויים
                                 </label>
@@ -100,11 +104,14 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                             />
                         </div>
                         <div>
-                            <h3 className='text-2xl text-left font-medium mb-4'>סמסטר ב</h3>
+                            <h3 className="text-2xl text-center font-semibold mb-3 text-gray-800 dark:text-gray-200 tracking-wide leading-tight">
+                                סמסטר ב
+                            </h3>                            <hr
+                                className="my-3 h-2 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-indigo-600 to-transparent opacity-50 dark:via-neutral-400"/>
                             <div>
                                 <label
                                     htmlFor='reqCourseName'
-                                    className='block text-gray-700 font-bold mb-2'
+                                    className='block text-gray-700 text-center font-bold mb-2'
                                 >
                                     קורסי חובה רצויים
                                 </label>
@@ -118,7 +125,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                             <div>
                                 <label
                                     htmlFor='reqCourseName'
-                                    className='block text-gray-700 font-bold mb-2'
+                                    className='block text-gray-700 text-center font-bold mb-2'
                                 >
                                     קורסי בחירה רצויים
                                 </label>

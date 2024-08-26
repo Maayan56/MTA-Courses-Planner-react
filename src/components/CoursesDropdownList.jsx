@@ -3,6 +3,7 @@ import Papa from "papaparse";
 import _ from 'lodash';
 import { IoIosRemoveCircleOutline } from "react-icons/io";
 import coursesWithExe from '../coursesWithExe.json';
+import ToggleSwitch from "./ToggleSwitch.jsx";
 // eslint-disable-next-line react/prop-types
 const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseChange}) => {
 
@@ -17,7 +18,15 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
     }])
 
     const [validationError, setValidationError] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(true);
 
+    const handleToggleButton= (checked) => {
+        setShowDropdown(checked);
+        if(!showDropdown){
+            const temp=[{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }];
+            onCourseChange(temp);
+        }
+    }
     const handleChangeSelect1= (event, index) => {
 
         setValidationError(false);
@@ -58,14 +67,15 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
     }
 
     const handleChangeSelect3= (event, index) => {
-        const temp=[...coursesPrefArr]
         const newVal=event.target.value;
+        console.log(`New value for index ${index}: ${newVal}`);
+        const temp=[...coursesPrefArr];
         temp[index]["exercise_code"]=newVal;
         onCourseChange(temp);
     }
 
     const handleAdd=() => {
-        const newPref = { course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "" };
+        const newPref = { course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" };
         onCourseChange([...coursesPrefArr, newPref]);
 
         const newOpt={ lesson_group_code_opt:[], exercise_group_code_opt:[] }
@@ -118,75 +128,89 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
 
     return(
         <>
-            <button
-                onClick={handleAdd}
-                className="bg-indigo-500 hover:bg-indigo-600 text-white text-sm py-1 ml-2 mb-2 font-medium rounded-full w-1/6 focus:outline-none focus:shadow-outline"
-            >
-                הוסף קורס
-            </button>
-            {/* eslint-disable-next-line react/prop-types */}
-            {coursesPrefArr.map((singlePref,index) => {
-                return(
-                    <div key= {index} className= 'mb-4 border-dotted border-b-2 border-indigo-600'>
-                        <div className= 'mb-2'>
-                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required
-                                    onChange={(e) => handleChangeSelect1(e,index)}
-                            >
-                                <option value="" disabled hidden>
-                                    Choose Course
-                                </option>
-                                {uniqueCourseNames.map((name, idx) => (
-                                    <option key={idx} value={name}>
-                                        {name}
-                                    </option>
-                                ))}
-                            </select>
-                            {/* eslint-disable-next-line react/prop-types */}
-                            {coursesPrefArr.length !== 1 && (
-                                <button
-                                    onClick={() => handleRemoved(index)}
-                                    className="bg-indigo-500 hover:bg-indigo-600 ml-2 rounded-lg w-7 focus:outline-none focus:shadow-outline"
+            <ToggleSwitch handleToggleChange={handleToggleButton}/>
+            {showDropdown && (<div className= 'my-2'>
+                <button
+                    onClick={handleAdd}
+                    className="bg-indigo-500 hover:bg-indigo-600 text-white text-sm py-1 ml-2 font-medium rounded-full w-1/6 focus:outline-none focus:shadow-outline"
+                >
+                    הוסף קורס
+                </button>
+                {/* eslint-disable-next-line react/prop-types */}
+                {coursesPrefArr.map((singlePref,index) => {
+                    return(
+                        <div key= {index} className= 'my-4'>
+                            <div className= 'mb-2'>
+                                <select className='border rounded w-1/2 py-2 px-3' value={singlePref.course_code_name} required
+                                        onChange={(e) => handleChangeSelect1(e,index)}
                                 >
-                                    <IoIosRemoveCircleOutline className='inline text-xl text-white m-1'/>
-                                </button>
-                            )}
-                        </div>
-                        <div className= 'mb-2'>
-                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.lesson_code} required onChange={(e) => handleChangeSelect2(e,index)}>
-                                <option value="" disabled hidden>
-                                    Choose Lesson Group
-                                </option>
-                                <option value="dc">
-                                    לא משנה לי
-                                </option>
-                                {lessonExeOptions[index]["lesson_group_code_opt"].map((code, idx) => (
-                                    <option key={idx} value={code}>
-                                        {code + ' ' + (filteredCourses.find((obj) => obj.group_number === code)?.lecturer_name || '')}
+                                    <option value="" disabled hidden>
+                                        Choose Course
                                     </option>
-                                ))}
-                            </select>
-                        </div>
-                        {/* eslint-disable-next-line react/prop-types */}
-                        {coursesPrefArr[index].has_exercise && (<div className= 'mb-2'>
-                            <select className='border rounded w-1/2 py-2 px-3' value={singlePref.exercise_code} required onChange={(e) => handleChangeSelect3(e,index)}>
-                                <option value="" disabled hidden>
-                                    Choose Exercise Group
-                                </option>
-                                <option value="dc">
-                                    לא משנה לי
-                                </option>
+                                    {uniqueCourseNames.map((name, idx) => (
+                                        <option key={idx} value={name}>
+                                            {name}
+                                        </option>
+                                    ))}
+                                </select>
                                 {/* eslint-disable-next-line react/prop-types */}
-                                {coursesPrefArr[index].lesson_code !== "dc" && ((coursesPrefArr[index].course_code_name === "נושאים מתקדמים בהסתברות וסטטיסטיקה - 192114" ? [lessonExeOptions[index]["exercise_group_code_opt"][0]] : lessonExeOptions[index]["exercise_group_code_opt"]).map((name, idx) => (
-                                    <option key={idx} value={name}>
-                                        {name}
+                                {coursesPrefArr.length !== 1 && (
+                                    <button
+                                        onClick={() => handleRemoved(index)}
+                                        className="bg-indigo-500 hover:bg-indigo-600 ml-2 rounded-lg w-7 focus:outline-none focus:shadow-outline"
+                                    >
+                                        <IoIosRemoveCircleOutline className='inline text-xl text-white m-1'/>
+                                    </button>
+                                )}
+                            </div>
+                            <div className= 'mb-2'>
+                                <select className='border rounded w-1/2 py-2 px-3' value={singlePref.lesson_code} required onChange={(e) => handleChangeSelect2(e,index)}>
+                                    <option value="" disabled hidden>
+                                        Choose Lesson Group
                                     </option>
-                                )))}
-                            </select>
-                        </div>)}
-                    </div>
-                )
-            })}
+                                    <option value="dc">
+                                        לא משנה לי
+                                    </option>
+                                    {lessonExeOptions[index]["lesson_group_code_opt"].map((code, idx) => (
+                                        <option key={idx} value={code}>
+                                            {code + ' ' + (filteredCourses.find((obj) => obj.group_number === code)?.lecturer_name || '')}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+                            {/* eslint-disable-next-line react/prop-types */}
+                            {coursesPrefArr[index].has_exercise && (<div className= 'mb-2'>
+                                {/* eslint-disable-next-line react/prop-types */}
+                                <select className='border rounded w-1/2 py-2 px-3' value={coursesPrefArr[index].lesson_code === "dc" ? "dc" : singlePref.exercise_code}
+                                        required
+                                        onChange={(e) => handleChangeSelect3(e,index)}
+                                >
+                                    <option value="" disabled hidden>
+                                        Choose Exercise Group
+                                    </option>
+                                    <option value="dc">
+                                        לא משנה לי
+                                    </option>
+                                    {/* eslint-disable-next-line react/prop-types */}
+                                    {coursesPrefArr[index].lesson_code !== "dc" && ((coursesPrefArr[index].course_code_name === "נושאים מתקדמים בהסתברות וסטטיסטיקה - 192114" ? [lessonExeOptions[index]["exercise_group_code_opt"][0]] : lessonExeOptions[index]["exercise_group_code_opt"]).map((name, idx) => (
+                                        <option key={idx} value={name}>
+                                            {name}
+                                        </option>
+                                    )))}
+                                </select>
+                            </div>)}
+                            <hr
+                                className="my-3 h-1 border-t-0 bg-transparent bg-gradient-to-r from-transparent via-indigo-400 to-transparent opacity-50 dark:via-neutral-400"/>
+                        </div>
+                    )
+                })}
+            </div>)}
         </>
+
+
+
+
+
     )
 }
 
