@@ -37,6 +37,8 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
 
         const hasExe = coursesWithExe["courses-codes"].some(courseCode => (event.target.value).includes(courseCode));
         temp[index]["has_exercise"]=hasExe;
+        temp[index]["lesson_code"]="dc";
+        temp[index]["exercise_code"]="dc";
 
         const courseChangeValid = onCourseChange(temp, newVal);
         if (!courseChangeValid)
@@ -50,6 +52,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
         const uniqueCodes = [...new Set(courseLessonCodes)];
         const tempOptions=[...lessonExeOptions];
         tempOptions[index]["lesson_group_code_opt"]=[...uniqueCodes];
+        tempOptions[index]["exercise_group_code_opt"]=[];
         setLessonExeOptions(tempOptions);
     }
 
