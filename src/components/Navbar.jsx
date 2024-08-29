@@ -26,6 +26,9 @@ const Navbar = () => {
                                 <NavLink to='/add-pref' className={linkClass}>
                                     Add preferences
                                 </NavLink>
+                                <NavLink to='/show-schedules' className={linkClass}>
+                                    Show Schedules
+                                </NavLink>
                             </div>
                         </div>
                     </div>

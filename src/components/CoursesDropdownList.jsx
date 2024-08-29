@@ -22,7 +22,6 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
 
     const handleToggleButton= (checked) => {
         setShowDropdown(checked);
-        console.log("showDropDown, checked", showDropdown, checked);
         if(!checked){
             const temp=[{ course_code_name: "", lesson_code: "", has_exercise: false, exercise_code: "dc" }];
             onCourseChange(temp);

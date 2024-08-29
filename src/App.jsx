@@ -7,6 +7,7 @@ import {
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import AddCoursesPref from './pages/AddCoursesPref';
+import AllSchedulesPage from "./pages/AllSchedulesPage.jsx";
 
 
 
@@ -29,6 +30,7 @@ const App = () => {
             <Route path='/' element={<MainLayout />}>
                 <Route index element={<HomePage />} />
                 <Route path='/add-pref' element={<AddCoursesPref addPrefSubmit={addPref} />} />
+                <Route path='/show-schedules' element={<AllSchedulesPage />} />
             </Route>
         )
     );

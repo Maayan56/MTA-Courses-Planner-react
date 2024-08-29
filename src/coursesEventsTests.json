@@ -1,0 +1,28 @@
+{
+  "courses": [
+    {
+      "course_code_name": "חישוביות - 131113",
+      "lesson_code": "13111302",
+      "day": "1",
+      "lesson_or_exercise": "שיעור",
+      "end_time":"11:30" ,
+      "start_time":"13:15"
+    },
+    {
+      "course_code_name": "מערכות הפעלה - 131116",
+      "lesson_code": "13111607",
+      "day": "3",
+      "lesson_or_exercise": "שיעור",
+      "end_time":"10:15" ,
+      "start_time":"11:45"
+    },
+    {
+      "course_code_name": "מערכות הפעלה - 131116",
+      "lesson_code": "13111607",
+      "day": "4",
+      "lesson_or_exercise": "שיעור",
+      "end_time":"08:15" ,
+      "start_time":"09:45"
+    }
+  ]
+}
