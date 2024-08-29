@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Papa from "papaparse";
 import _ from 'lodash';
 import { IoIosRemoveCircleOutline } from "react-icons/io";
-import coursesWithExe from '../coursesWithExe.json';
+import coursesWithExe from '../../public/coursesWithExe.json';
 import ToggleSwitch from "./ToggleSwitch.jsx";
 // eslint-disable-next-line react/prop-types
 const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseChange}) => {

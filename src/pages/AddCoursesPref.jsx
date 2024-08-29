@@ -83,7 +83,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 </label>
                             </div>
                             <CoursesDropdownList
-                                coursesTablePath={'src/cs_courses_required.csv'}
+                                coursesTablePath={'/cs_courses_required.csv'}
                                 query={queryA}
                                 coursesPrefArr={selectedCoursesData.reqCoursesAlist}
                                 onCourseChange={(updatedData, choice1="") => handleCourseChange("reqCoursesAlist", updatedData, choice1)}
@@ -97,7 +97,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 </label>
                             </div>
                             <CoursesDropdownList
-                                coursesTablePath={'src/cs_courses_choice.csv'}
+                                coursesTablePath={'/cs_courses_choice.csv'}
                                 query={queryA}
                                 coursesPrefArr={selectedCoursesData.choiceCoursesAlist}
                                 onCourseChange={(updatedData, choice1="") => handleCourseChange("choiceCoursesAlist", updatedData, choice1)}
@@ -117,7 +117,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 </label>
                             </div>
                             <CoursesDropdownList
-                                coursesTablePath={'src/cs_courses_required.csv'}
+                                coursesTablePath={'/cs_courses_required.csv'}
                                 query={queryB}
                                 coursesPrefArr={selectedCoursesData.reqCoursesBlist}
                                 onCourseChange={(updatedData, choice1="") => handleCourseChange("reqCoursesBlist", updatedData, choice1)}
@@ -131,7 +131,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
                                 </label>
                             </div>
                             <CoursesDropdownList
-                                coursesTablePath={'src/cs_courses_choice.csv'}
+                                coursesTablePath={'/cs_courses_choice.csv'}
                                 query={queryB}
                                 coursesPrefArr={selectedCoursesData.choiceCoursesBlist}
                                 onCourseChange={(updatedData, choice1="") => handleCourseChange("choiceCoursesBlist", updatedData, choice1)}

@@ -9,7 +9,7 @@ const CoursesScheduler = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        fetch('src/coursesEventsTests.json')
+        fetch('/coursesEventsTests.json')
             .then(response => response.json())
             .then(data => {
                 const calendarEvents = data.courses.map(course => {
@@ -34,7 +34,11 @@ const CoursesScheduler = () => {
                 });
 
                 setEvents(calendarEvents);
+            })
+            .catch(error => {
+                console.error('Error fetching the JSON file:', error);
             });
+
     }, []);
 
     const formats = {
@@ -46,21 +50,22 @@ const CoursesScheduler = () => {
     };
 
     return (
-        <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            defaultView="week"
-            views={['week']}
-            step={15}
-            timeslots={4}
-            min={new Date(2023, 0, 1, 8, 0, 0)}  // Start at 8:00 AM
-            max={new Date(2023, 0, 1, 21, 0, 0)}  // End at 9:00 PM
-            style={{ height: 500 }}
-            toolbar={false}  // Hides the toolbar (Today, Back, Next)
-            formats={formats}  // Custom formats for day names and time format
-        />
+            <Calendar
+                localizer={localizer}
+                events={events}
+                startAccessor="start"
+                endAccessor="end"
+                defaultView="week"
+                views={['week']}
+                step={15}
+                timeslots={4}
+                min={new Date(2023, 0, 1, 8, 0, 0)}  // Start at 8:00 AM
+                max={new Date(2023, 0, 1, 21, 0, 0)}  // End at 9:00 PM
+                style={{ height: 500 }}
+                toolbar={false}  // Hides the toolbar (Today, Back, Next)
+                formats={formats}  // Custom formats for day names and time format
+            />
+
     )
 }
 export default CoursesScheduler
