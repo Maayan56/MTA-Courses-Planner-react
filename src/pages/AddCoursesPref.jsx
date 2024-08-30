@@ -33,7 +33,7 @@ const AddCoursesPref = ({ addPrefSubmit }) => {
             selectedCoursesData,
             studentId
         };
-        //console.log("the new job:", newJob);
+        console.log("click on submit", newStudentPref);
         addPrefSubmit(newStudentPref);
     };
 

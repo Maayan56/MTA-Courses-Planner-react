@@ -71,7 +71,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
 
     const handleChangeSelect3= (event, index) => {
         const newVal=event.target.value;
-        console.log(`New value for index ${index}: ${newVal}`);
+        //console.log(`New value for index ${index}: ${newVal}`);
         const temp=[...coursesPrefArr];
         temp[index]["exercise_code"]=newVal;
         onCourseChange(temp);
