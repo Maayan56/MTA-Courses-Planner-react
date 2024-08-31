@@ -5,29 +5,46 @@ import { useState, useEffect } from 'react';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 const localizer = momentLocalizer(moment);
-const CoursesScheduler = () => {
+// eslint-disable-next-line react/prop-types
+const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName}) => {
+
+    const dayMap = {
+        "א": 0, // Sunday
+        "ב": 1, // Monday
+        "ג": 2, // Tuesday
+        "ד": 3, // Wednesday
+        "ה": 4, // Thursday
+        "ו": 5, // Friday
+        "ש": 6  // Saturday
+    };
+
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
         fetch('/coursesEventsTests.json')
             .then(response => response.json())
             .then(data => {
-                const calendarEvents = data.courses.map(course => {
-                    const { day, start_time, end_time, course_code_name, lesson_or_exercise } = course;
+                const dataArray1 = data[reqCoursesArrayName] || [];
+                const dataArray2 = data[choiceCoursesArrayName] || [];
+
+                // Combine the arrays
+                const combinedData = [...dataArray1, ...dataArray2];
+                const calendarEvents = combinedData.map(course => {
+                    const { day, start_time, end_time, course_id_name, lesson_or_exercise } = course;
 
                     // Split the time strings into hours and minutes
                     const [startHour, startMinute] = start_time.split(':').map(Number);
                     const [endHour, endMinute] = end_time.split(':').map(Number);
 
                     const now = new Date();
-                    const start = new Date(now.setDate(now.getDate() - now.getDay() + parseInt(day, 10) -1));
+                    const start = new Date(now.setDate(now.getDate() - now.getDay() + dayMap[day]));
                     start.setHours(startHour, startMinute, 0);
 
                     const end = new Date(start);
                     end.setHours(endHour, endMinute, 0);
 
                     return {
-                        title: `${course_code_name} - ${lesson_or_exercise}`,
+                        title: `${course_id_name} - ${lesson_or_exercise}`,
                         start: start,
                         end: end,
                     };
@@ -39,7 +56,7 @@ const CoursesScheduler = () => {
                 console.error('Error fetching the JSON file:', error);
             });
 
-    }, []);
+    }, [reqCoursesArrayName, choiceCoursesArrayName]);
 
     const formats = {
         dayFormat: (date, culture, localizer) => localizer.format(date, 'dddd', culture),

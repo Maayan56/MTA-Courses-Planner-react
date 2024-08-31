@@ -29,6 +29,7 @@ const App = () => {
 
             if (!response.ok) {
                 console.error('HTTP error! Status: ' + response.status);
+
             }
 
             const data = await response.json();
