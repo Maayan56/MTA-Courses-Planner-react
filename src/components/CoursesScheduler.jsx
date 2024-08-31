@@ -7,7 +7,7 @@ import "./Schedule.css";
 
 const localizer = momentLocalizer(moment);
 // eslint-disable-next-line react/prop-types
-const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName}) => {
+const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName, responseData}) => {
 
     const dayMap = {
         "א": 0, // Sunday
@@ -22,41 +22,35 @@ const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName}) => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        fetch('/coursesEventsTests.json')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                const dataArray1 = data[reqCoursesArrayName] || [];
-                const dataArray2 = data[choiceCoursesArrayName] || [];
+        if(responseData){
+            console.log("data res from server:", responseData);
+            const dataArray1 = responseData[reqCoursesArrayName] || [];
+            const dataArray2 = responseData[choiceCoursesArrayName] || [];
 
-                // Combine the arrays
-                const combinedData = [...dataArray1, ...dataArray2];
-                const calendarEvents = combinedData.map(course => {
-                    const { day, start_time, end_time, course_id_name, lesson_or_exercise } = course;
+            // Combine the arrays
+            const combinedData = [...dataArray1, ...dataArray2];
+            const calendarEvents = combinedData.map(course => {
+                const { day, start_time, end_time, course_id_name, lesson_or_exercise } = course;
 
-                    // Split the time strings into hours and minutes
-                    const [startHour, startMinute] = start_time.split(':').map(Number);
-                    const [endHour, endMinute] = end_time.split(':').map(Number);
+                // Split the time strings into hours and minutes
+                const [startHour, startMinute] = start_time.split(':').map(Number);
+                const [endHour, endMinute] = end_time.split(':').map(Number);
 
-                    const now = new Date();
-                    const start = new Date(now.setDate(now.getDate() - now.getDay() + dayMap[day]));
-                    start.setHours(startHour, startMinute, 0);
+                const now = new Date();
+                const start = new Date(now.setDate(now.getDate() - now.getDay() + dayMap[day]));
+                start.setHours(startHour, startMinute, 0);
 
-                    const end = new Date(start);
-                    end.setHours(endHour, endMinute, 0);
+                const end = new Date(start);
+                end.setHours(endHour, endMinute, 0);
 
-                    return {
-                        title: `${course_id_name} - ${lesson_or_exercise}`,
-                        start: start,
-                        end: end,
-                    };
-                });
-
-                setEvents(calendarEvents);
-            })
-            .catch(error => {
-                console.error('Error fetching the JSON file:', error);
+                return {
+                    title: `${course_id_name} - ${lesson_or_exercise}`,
+                    start: start,
+                    end: end,
+                };
             });
+            setEvents(calendarEvents);
+        }
 
     }, [reqCoursesArrayName, choiceCoursesArrayName]);
 
