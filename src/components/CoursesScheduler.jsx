@@ -3,6 +3,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import { useState, useEffect } from 'react';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import "./Schedule.css";
 
 const localizer = momentLocalizer(moment);
 // eslint-disable-next-line react/prop-types
@@ -24,6 +25,7 @@ const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName}) => {
         fetch('/coursesEventsTests.json')
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 const dataArray1 = data[reqCoursesArrayName] || [];
                 const dataArray2 = data[choiceCoursesArrayName] || [];
 

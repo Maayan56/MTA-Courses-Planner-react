@@ -28,7 +28,7 @@ const AllSchedulesPage = () => {
 
     return (
         <div>
-            <select className='border rounded w-1/2 py-2 px-3 mb-2' value={selectedSemester} onChange={handleChange}>
+            <select className='border rounded w-1/8 py-2 px-3 mb-2' value={selectedSemester} onChange={handleChange}>
                 <option value="">Select a semester</option>
                 <option value="A">Semester A</option>
                 <option value="B">Semester B</option>

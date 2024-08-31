@@ -108,7 +108,7 @@ const CoursesDropdownList = ({coursesTablePath, query, coursesPrefArr, onCourseC
                         // Convert to JSON and set state
                         const json = result.data;
                         setCoursesData(json);
-                        console.log("Converted JSON:", json);
+                        //console.log("Converted JSON:", json);
                     },
                     error: (error) => {
                         console.error("Error parsing CSV:", error);
