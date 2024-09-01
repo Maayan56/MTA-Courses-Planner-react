@@ -3,11 +3,17 @@
     color: white;
 }
 
+.rbc-day-slot.rbc-time-column.rbc-now.rbc-today {
+    background-color: transparent !important;
+}
+
+
+
 .rbc-event{
     background-color: #0066b2 !important;
     text-align: right;
     border-radius: 4px !important;
-    border: 2px solid #ddd !important;
+    border: 2px solid #ffffff !important;
     padding: 4px !important;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
     width:100% !important;
@@ -27,7 +33,10 @@
 
 .rbc-current-time-indicator{
     display: none;
+}
 
+.rbc-allday-cell{
+    display: none;
 }
 
 

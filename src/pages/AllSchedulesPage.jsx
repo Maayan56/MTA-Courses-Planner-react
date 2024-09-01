@@ -5,6 +5,7 @@ import html2canvas from 'html2canvas';
 // eslint-disable-next-line react/prop-types
 const AllSchedulesPage = ({responseData}) => {
 
+
     const [selectedSemester, setSelectedSemester] = useState('');
     const handleChange = (event) => {
         setSelectedSemester(event.target.value);
@@ -15,12 +16,20 @@ const AllSchedulesPage = ({responseData}) => {
             case 'B':
                 return {
                     reqCoursesArrayName: 'requiredSemesterB',
-                    choiceCoursesArrayName: 'choiceSemesterB'
+                    choiceCoursesArrayName: 'choiceSemesterB',
+                    // eslint-disable-next-line react/prop-types
+                    changes: responseData?.changesB || [],
+                    // eslint-disable-next-line react/prop-types
+                    errors: responseData?.errorsB || []
                 };
             case 'A':
                 return {
                     reqCoursesArrayName: 'requiredSemesterA',
-                    choiceCoursesArrayName: 'choiceSemesterA'
+                    choiceCoursesArrayName: 'choiceSemesterA',
+                    // eslint-disable-next-line react/prop-types
+                    changes: responseData?.changesA || [],
+                    // eslint-disable-next-line react/prop-types
+                    errors: responseData?.errorsA || []
                 };
             default:
                 return null;
@@ -35,7 +44,7 @@ const AllSchedulesPage = ({responseData}) => {
 
         html2canvas(input).then((canvas) => {
             const imgData = canvas.toDataURL('image/png');
-            const pdf = new jsPDF('p', 'mm', 'a4',true);
+            const pdf = new jsPDF('landscape', 'mm', 'a4',true);
             const pdfWidth = pdf.internal.pageSize.getWidth();
             const pdfHeight = pdf.internal.pageSize.getHeight();
             const imgWidth = canvas.width;
@@ -52,31 +61,56 @@ const AllSchedulesPage = ({responseData}) => {
     return (
         <div>
             {responseData ? (
-                <div>
                     <div ref={printRef} id="content-to-print">
-                        <select className='border rounded w-1/8 py-2 px-3 mb-2' value={selectedSemester} onChange={handleChange}>
-                            <option value="">Select a semester</option>
-                            <option value="A">Semester A</option>
-                            <option value="B">Semester B</option>
-                        </select>
-
+                        <div className="flex items-center">
+                            <select className="border rounded py-2 px-3 mb-2 mr-4" value={selectedSemester} onChange={handleChange}>
+                                <option value="">Select a semester</option>
+                                <option value="A">Semester A</option>
+                                <option value="B">Semester B</option>
+                            </select>
+                            {coursesProps && (
+                                <button
+                                    className="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-full focus:outline-none focus:shadow-outline"
+                                    onClick={generatePDF}
+                                >
+                                    Download as PDF
+                                </button>
+                            )}
+                        </div>
                         {coursesProps && (
-                            <CoursesScheduler
-                                reqCoursesArrayName={coursesProps.reqCoursesArrayName}
-                                choiceCoursesArrayName={coursesProps.choiceCoursesArrayName}
-                                responseData={responseData}
-                            />
+                            <>
+                                <CoursesScheduler
+                                    reqCoursesArrayName={coursesProps.reqCoursesArrayName}
+                                    choiceCoursesArrayName={coursesProps.choiceCoursesArrayName}
+                                    responseData={responseData}
+                                />
+                                <div className="mt-1">
+                                    <h3 className="text-lg font-semibold ml-3">Changes</h3>
+                                    {coursesProps.changes.length > 0 ? (
+                                        <ul className="list-disc list-inside ml-3">
+                                            {coursesProps.changes.map((change, index) => (
+                                                <li key={index}>{change}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className='ml-3'>No changes available for this semester.</p>
+                                    )}
+                                    <h3 className="text-lg font-semibold ml-3 mt-1">Errors</h3>
+                                    {coursesProps.errors.length > 0 ? (
+                                        <ul className="list-disc list-inside ml-3">
+                                            {coursesProps.errors.map((error, index) => (
+                                                <li key={index}>{error}</li>
+                                            ))}
+                                        </ul>
+                                    ) : (
+                                        <p className='ml-3'>No errors available for this semester.</p>
+                                    )}
+                                </div>
+                            </>
                         )}
                     </div>
-                    {coursesProps && (
-                        <button className='block mx-auto bg-indigo-500 hover:bg-indigo-600 text-white mt-2 font-bold py-2 px-4 rounded-full w-1/6 focus:outline-none focus:shadow-outline'
-                                onClick={generatePDF}>
-                            Download as PDF
-                        </button>
-                    )}
-                </div>
             ) : (
-                <p className="my-4 text-xl text-black">No Schedules To Show</p>
+                <p className="my-4 text-xl text-center text-black">No Schedules To Show</p>
             )}
         </div>
     );

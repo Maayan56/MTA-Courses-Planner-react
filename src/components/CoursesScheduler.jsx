@@ -74,7 +74,7 @@ const CoursesScheduler = ({reqCoursesArrayName, choiceCoursesArrayName, response
                 timeslots={4}
                 min={new Date(2023, 0, 1, 8, 0, 0)}  // Start at 8:00 AM
                 max={new Date(2023, 0, 1, 21, 0, 0)}  // End at 9:00 PM
-                style={{ height: 500 }}
+                style={{ height: 450 }}
                 toolbar={false}  // Hides the toolbar (Today, Back, Next)
                 formats={formats}  // Custom formats for day names and time format
             />

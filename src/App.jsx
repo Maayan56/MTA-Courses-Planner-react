@@ -30,8 +30,7 @@ const App = () => {
             //console.log('Response:', response);
 
             if (!response.ok) {
-                console.error('HTTP error! Status: ' + response.status);
-                return;
+                throw new Error('HTTP error! Status: ' + response.status);
             }
             const data = await response.json();
             console.log('Success:', data);
